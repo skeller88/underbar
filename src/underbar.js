@@ -40,13 +40,12 @@ var _ = { };
   _.each = function(collection, iterator) { //todo understand "breaker"
       if (Array.isArray(collection)) {
           for (var i = 0; i < collection.length; i++) {
-              collection[i] = iterator(collection[i], i, collection);
-              //console.log(iterator(collection[i]));
+              iterator(collection[i], i, collection);
           }
       } else {
           for (var key in collection) {
               if (collection.hasOwnProperty(key)) {
-                  collection[key] = iterator(collection[key], key, collection);
+                  iterator(collection[key], key, collection);
               }
           }
       }
@@ -72,18 +71,20 @@ var _ = { };
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
       var filteredCollection = [];
-      for (var i = 0; i < collection.length; i++) {
-          if (test(collection[i])) {
-              filteredCollection.push(collection[i]);
+      _.each(collection, function(element) {
+          if (test(element)) {
+              filteredCollection.push(element);
           }
-      }
+      });
       return filteredCollection;
   };
 
   // Return all elements of an array that don't pass a truth test.
-  _.reject = function(collection, test) {
+  _.reject = function(collection, predicate) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+      function notPredicate(value){ return !predicate(value); }
+      return _.filter(collection, notPredicate);
   };
 
   // Produce a duplicate-free version of the array.
@@ -128,8 +129,9 @@ var _ = { };
   };
 
   // Calls the method named by methodName on each value in the list.
-  // Note: you will nead to learn a bit about .apply to complete this.
+  // Note: you will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+      _.each(collection, function(value) { return functionOrKey.apply(value, args); }); //TODO fix
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -146,6 +148,7 @@ var _ = { };
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+      //_.each(collection, iterator(accumulator, ) { return }) //TODO fix
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -192,6 +195,9 @@ var _ = { };
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+        //_.each(arguments[i], function(arguments[i].key, { } ); //TODO fix
+    }
   };
 
   // Like extend, but doesn't ever overwrite a key that already
