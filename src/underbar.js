@@ -91,7 +91,6 @@ var _ = { };
       array.sort();
       var uniqArr = [];
       for (var i = 0; i < array.length - 1; i++) {
-        console.log("i= "+ i);
           if (array[i] !== array[i + 1]) {
             uniqArr.push(array[i]);
           }
@@ -103,9 +102,11 @@ var _ = { };
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
-    // map() is a useful primitive iteration function that works a lot
-    // like each(), but in addition to running the operation on all
-    // the members, it also maintains an array of results.
+    var mappedArray = [];
+      for (var i = 0; i < array.length; i++) {
+          mappedArray[i] = iterator(array[i]);
+      }
+      return mappedArray;
   };
 
   /*
