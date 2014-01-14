@@ -81,9 +81,8 @@ var _ = { };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, predicate) {
-    // TIP: see if you can re-use _.filter() here, without simply
-    // copying code in and modifying it
       function notPredicate(value){ return !predicate(value); }
+
       return _.filter(collection, notPredicate);
   };
 
@@ -96,7 +95,7 @@ var _ = { };
             uniqArr.push(array[i]);
           }
       }
-      uniqArr.push(array[array.length - 1]);
+      uniqArr.push(array[array.length - 1]); //TODO is there a better way to deal with this fencepost issue?
       return uniqArr;
   };
 
@@ -104,10 +103,11 @@ var _ = { };
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
     var mappedArray = [];
-      for (var i = 0; i < array.length; i++) {
-          mappedArray[i] = iterator(array[i]);
-      }
-      return mappedArray;
+      _.each(array, function(element, index) {
+          mappedArray[index] = iterator(element);
+      });
+
+    return mappedArray;
   };
 
   /*
@@ -131,7 +131,12 @@ var _ = { };
   // Calls the method named by methodName on each value in the list.
   // Note: you will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-      _.each(collection, function(value) { return functionOrKey.apply(value, args); }); //TODO fix
+
+      return _.map(collection, function(value){
+          return functionOrKey.apply(value, args);
+          //console.log(functionOrKey.apply(value, args));
+      }); //TODO fix
+
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -147,8 +152,11 @@ var _ = { };
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  _.reduce = function(collection, iterator, accumulator) {
-      //_.each(collection, iterator(accumulator, ) { return }) //TODO fix
+
+    _.reduce = function(collection, iterator, accumulator) {
+
+      _.each(collection, function(value) { accumulator = iterator(accumulator, value); });
+       return accumulator; //TODO fix
   };
 
   // Determine if the array or object contains a given value (using `===`).

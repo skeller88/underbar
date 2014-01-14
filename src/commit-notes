@@ -1,5 +1,2 @@
-Fixed _.each so that it doesn't change values of collection passed to it,
-Added call to _.each in implementation of _.filter,
-Finished _.reject,
-Attempted to write _.invoke; wasn't able to,
-Attempted to write _.reduce; wasn't able to
+Changed implementation of _.map to call _.each
+Fixed _.reduce
