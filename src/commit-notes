@@ -1,2 +1,1 @@
-Changed implementation of _.map to call _.each
-Fixed _.reduce
+Add conditional check for undefined 'accumulator' param in _.reduce,

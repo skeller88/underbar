@@ -133,9 +133,9 @@ var _ = { };
   _.invoke = function(collection, functionOrKey, args) {
 
       return _.map(collection, function(value){
-          return functionOrKey.apply(value, args);
-          //console.log(functionOrKey.apply(value, args));
-      }); //TODO fix
+          var f = typeof(functionOrKey) === "function" ? functionOrKey : value[functionOrKey];
+          return f.apply(value, args);
+      });
 
   };
 
@@ -155,8 +155,11 @@ var _ = { };
 
     _.reduce = function(collection, iterator, accumulator) {
 
+        if (accumulator === undefined) {
+            accumulator = 0;
+        }
       _.each(collection, function(value) { accumulator = iterator(accumulator, value); });
-       return accumulator; //TODO fix
+       return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -171,10 +174,11 @@ var _ = { };
     }, false);
   };
 
-
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+      /*return _.reduce(collection, iterator(passesTest, item) {
+          return iterator(item);
+      }, true);*/
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
