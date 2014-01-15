@@ -136,7 +136,6 @@ var _ = { };
           var f = typeof(functionOrKey) === "function" ? functionOrKey : value[functionOrKey];
           return f.apply(value, args);
       });
-
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -176,10 +175,12 @@ var _ = { };
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-      /*return _.reduce(collection, iterator(passesTest, item) {
-          return iterator(item);
-      }, true);*/
+      return _.reduce(collection, function(allPassed, element) {
+          return allPassed && ((iterator === undefined ? _.identity(element) : iterator(element)) ? true : false);
+      }, true);
   };
+
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one

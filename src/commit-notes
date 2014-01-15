@@ -1,1 +1,0 @@
-Add conditional check for undefined 'accumulator' param in _.reduce,
