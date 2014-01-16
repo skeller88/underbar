@@ -223,7 +223,19 @@ var _ = { };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function(obj) {
+  _.defaults = function(obj) { //todo way to do this incorporating extend?
+      var destOb = obj;
+
+      function assignObjProps(obj) {
+          _.each(obj, function(prop, key) {
+              return destOb[key] === undefined ? destOb[key] = prop : undefined;
+          });
+      }
+      for (var i = 1; i < arguments.length; i++) {
+          assignObjProps(arguments[i]);
+      }
+      return destOb;
+
   };
 
 
