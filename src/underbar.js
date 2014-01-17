@@ -278,21 +278,15 @@ var _ = { };
   // instead if possible.
   _.memoize = function(func) {
 
-      var alreadyCalled = false;
-      var arg = arguments[1];
-      var result;
+      var cache = {};
 
-      // TIP: We'll return a new function that delegates to the old one, but only
-      // if it hasn't been called before.
-      return function(arg) { //todo finish - ‘where do you store the previous callbacks?
-          if (!alreadyCalled) {
-              // TIP: .apply(this, arguments) is the standard way to pass on all of the
-              // information from one function call to another.
-              result = func.apply(this, arg);
-              alreadyCalled = true;
+      return function(arg) {
+          if (arg in cache) {
+              return cache[arg];
+          } else {
+              cache[arg] = func.call(this, arg);
+              return cache[arg];
           }
-          // The new function always returns the originally computed result.
-          return result;
       };
   };
 
