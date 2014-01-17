@@ -261,7 +261,7 @@ var _ = { };
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -277,6 +277,23 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+      var alreadyCalled = false;
+      var arg = arguments[1];
+      var result;
+
+      // TIP: We'll return a new function that delegates to the old one, but only
+      // if it hasn't been called before.
+      return function(arg) { //todo finish - ‘where do you store the previous callbacks?
+          if (!alreadyCalled) {
+              // TIP: .apply(this, arguments) is the standard way to pass on all of the
+              // information from one function call to another.
+              result = func.apply(this, arg);
+              alreadyCalled = true;
+          }
+          // The new function always returns the originally computed result.
+          return result;
+      };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -285,7 +302,9 @@ var _ = { };
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
+  _.delay = function(func, wait) { //todo finish
+      var args = arguments.slice(2, arguments.length);
+      window.setTimeout ( function() { func.apply(this, args); }, wait );
   };
 
 
@@ -300,6 +319,7 @@ var _ = { };
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+
   };
 
 
